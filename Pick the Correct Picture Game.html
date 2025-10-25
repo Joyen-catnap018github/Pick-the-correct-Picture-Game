@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!-- saved from url=(0098)http://127.0.0.1:3000/random%20site/index.html?serverWindowId=03f3cf78-9e35-4fe1-9ff9-44842d208869 -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style><script type="text/javascript" src="./Pick the Correct Picture Game_files/___vscode_livepreview_injected_script"></script>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pick the Correct Picture Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+      padding: 50px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .pictures {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    .pictures img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: transform 0.2s, border-color 0.2s, opacity 0.3s;
+    }
+    .pictures img:hover {
+      transform: scale(1.05);
+      border-color: #007bff;
+    }
+    #result {
+      margin-top: 30px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .fade {
+      opacity: 0.3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Pick the Correct Picture!</h1>
+  <p>Click on the picture you think is correct.</p>
+
+  <div class="pictures" id="pictures"><img src="./Pick the Correct Picture Game_files/646-150x150.jpg" alt="Pic 1"><img src="./Pick the Correct Picture Game_files/789-150x150.jpg" alt="Pic 2"><img src="./Pick the Correct Picture Game_files/787-150x150.jpg" alt="Pic 3"><img src="./Pick the Correct Picture Game_files/639-150x150.jpg" alt="Pic 4"><img src="./Pick the Correct Picture Game_files/699-150x150.jpg" alt="Pic 5"></div>
+
+  <div id="result"></div>
+  <button onclick="resetGame()">Play Again</button>
+
+  <script>
+    const allImages = [
+      "https://picsum.photos/150?random=1",
+      "https://picsum.photos/150?random=2",
+      "https://picsum.photos/150?random=3",
+      "https://picsum.photos/150?random=4",
+      "https://picsum.photos/150?random=5",
+      "https://picsum.photos/150?random=6",
+      "https://picsum.photos/150?random=7",
+      "https://picsum.photos/150?random=8",
+      "https://picsum.photos/150?random=9",
+      "https://picsum.photos/150?random=10"
+    ];
+
+    let correctIndex = 0;
+    let selectedImages = [];
+    const picturesDiv = document.getElementById('pictures');
+
+    function loadPictures() {
+      picturesDiv.innerHTML = '';
+      // Shuffle all images and pick 5 random ones
+      selectedImages = allImages.sort(() => 0.5 - Math.random()).slice(0, 5);
+      // Randomly choose the winning image among the 5
+      correctIndex = Math.floor(Math.random() * 5);
+
+      selectedImages.forEach((img, index) => {
+        const imageElement = document.createElement('img');
+        imageElement.src = img;
+        imageElement.alt = `Pic ${index + 1}`;
+        imageElement.onclick = () => checkChoice(index);
+        picturesDiv.appendChild(imageElement);
+      });
+    }
+
+    function checkChoice(index) {
+      const result = document.getElementById('result');
+      const images = document.querySelectorAll('.pictures img');
+
+      if (index === correctIndex) {
+        result.textContent = "🎉 You Win! 🎉";
+        result.style.color = "green";
+        images[correctIndex].style.borderColor = "green";
+      } else {
+        result.textContent = "❌ You Lose! ❌";
+        result.style.color = "red";
+        // Fade out wrong choices
+        images.forEach((img, i) => {
+          if (i !== correctIndex) img.classList.add('fade');
+        });
+        // Highlight the correct one
+        images[correctIndex].style.borderColor = "green";
+      }
+    }
+
+    function resetGame() {
+      document.getElementById('result').textContent = '';
+      loadPictures();
+    }
+
+    // Initial load
+    loadPictures();
+  </script>
+
+
+
+<div id="pdm-toast"></div><div id="pdm-widget" style="display: none; flex-direction: column; align-items: stretch; left: calc(100% - 50px); top: calc(100% - 50px); transform: translate(25px, 25px);"><img id="pdm-btn-image" src="chrome-extension://bbeljdknbkphplngjiddobpgagjbooec/assets/icon.png" draggable="false" alt="Open Reddit"><button id="pdm-btn"></button><button id="close-button" style="inset: auto 0px 0px auto;">×</button></div></body></html>
